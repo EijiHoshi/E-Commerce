@@ -69,6 +69,14 @@ class OrderController extends Controller
                 ]);
             }
 
+            // Tambahkan: Buat payment otomatis
+            \App\Models\Payment::create([
+                'order_id' => $order->id,
+                'payment_method_id' => $request->payment_method_id,
+                'amount' => $total,
+                'status' => 'pending',
+            ]);
+
             DB::commit();
             return response()->json(['message' => 'Checkout berhasil', 'order' => $order], 201);
         } catch (\Throwable $e) {

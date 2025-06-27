@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 24 Jun 2025 pada 14.20
+-- Waktu pembuatan: 25 Jun 2025 pada 08.21
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -48,7 +48,8 @@ CREATE TABLE `addresses` (
 
 INSERT INTO `addresses` (`id`, `user_id`, `name`, `phone`, `province`, `city`, `district`, `postal_code`, `street_address`, `detail`, `created_at`, `updated_at`) VALUES
 (1, 3, 'Rumah', '081234567890', 'Jawa Barat', 'Bandung', 'Cicendo', '40171', 'Jl. Contoh No. 123', 'Dekat pasar', '2025-06-13 04:54:45', '2025-06-13 04:54:45'),
-(2, 11, 'Rumah', '081234567890', 'Jawa Barat', 'Bandung', 'Cicendo', '40171', 'Jl. Contoh No. 123', 'Dekat pasar', '2025-06-20 03:28:27', '2025-06-20 03:28:27');
+(2, 11, 'Rumah', '081234567890', 'Jawa Barat', 'Bandung', 'Cicendo', '40171', 'Jl. Contoh No. 123', 'Dekat pasar', '2025-06-20 03:28:27', '2025-06-20 03:28:27'),
+(3, 10, 'Karawang', '08123456789', 'Jawa Barat', 'Karawang', 'fawfaw', '21521', 'fwafwa', 'gwafwaf', '2025-06-24 08:25:06', '2025-06-24 08:25:06');
 
 -- --------------------------------------------------------
 
@@ -93,8 +94,7 @@ CREATE TABLE `carts` (
 --
 
 INSERT INTO `carts` (`id`, `user_id`, `product_id`, `quantity`, `created_at`, `updated_at`) VALUES
-(1, 3, 1, 2, '2025-06-13 04:55:04', '2025-06-13 04:55:04'),
-(8, 10, 1, 2, '2025-06-24 04:04:17', '2025-06-24 04:05:40');
+(1, 3, 1, 2, '2025-06-13 04:55:04', '2025-06-13 04:55:04');
 
 -- --------------------------------------------------------
 
@@ -194,7 +194,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (20, '2025_06_13_104700_create_order_items_table', 1),
 (21, '2025_06_13_104800_add_is_recommended_to_products_table', 1),
 (22, '2025_06_24_003832_add_email_verification_token_to_users_table', 2),
-(23, '2025_06_24_005356_add_email_verification_code_to_users_table', 3);
+(23, '2025_06_24_005356_add_email_verification_code_to_users_table', 3),
+(24, '2025_06_25_000001_add_proof_of_payment_to_payments_table', 4);
 
 -- --------------------------------------------------------
 
@@ -242,7 +243,13 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `user_id`, `address_id`, `total_amount`, `status`, `created_at`, `updated_at`) VALUES
-(1, 3, 1, 10000000.00, 'Menunggu Pembayaran', '2025-06-13 04:55:27', '2025-06-13 04:55:27');
+(1, 3, 1, 10000000.00, 'Menunggu Pembayaran', '2025-06-13 04:55:27', '2025-06-13 04:55:27'),
+(2, 10, 3, 5400000.00, 'Menunggu Pembayaran', '2025-06-24 21:37:11', '2025-06-24 21:37:11'),
+(3, 10, 3, 80000.00, 'Menunggu Pembayaran', '2025-06-24 21:45:56', '2025-06-24 21:45:56'),
+(4, 10, 3, 750000.00, 'Menunggu Pembayaran', '2025-06-24 21:48:53', '2025-06-24 21:48:53'),
+(5, 10, 3, 750000.00, 'Menunggu Pembayaran', '2025-06-24 21:52:45', '2025-06-24 21:52:45'),
+(6, 10, 3, 750000.00, 'Menunggu Pembayaran', '2025-06-24 21:58:52', '2025-06-24 21:58:52'),
+(7, 10, 3, 750000.00, 'Menunggu Pembayaran', '2025-06-24 22:44:16', '2025-06-24 22:44:16');
 
 -- --------------------------------------------------------
 
@@ -265,7 +272,14 @@ CREATE TABLE `order_items` (
 --
 
 INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `price`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 2, 5000000.00, '2025-06-13 04:55:27', '2025-06-13 04:55:27');
+(1, 1, 1, 2, 5000000.00, '2025-06-13 04:55:27', '2025-06-13 04:55:27'),
+(2, 2, 1, 1, 5000000.00, '2025-06-24 21:37:11', '2025-06-24 21:37:11'),
+(3, 2, 7, 1, 400000.00, '2025-06-24 21:37:11', '2025-06-24 21:37:11'),
+(4, 3, 11, 1, 80000.00, '2025-06-24 21:45:56', '2025-06-24 21:45:56'),
+(5, 4, 4, 1, 750000.00, '2025-06-24 21:48:53', '2025-06-24 21:48:53'),
+(6, 5, 4, 1, 750000.00, '2025-06-24 21:52:45', '2025-06-24 21:52:45'),
+(7, 6, 4, 1, 750000.00, '2025-06-24 21:58:52', '2025-06-24 21:58:52'),
+(8, 7, 4, 1, 750000.00, '2025-06-24 22:44:16', '2025-06-24 22:44:16');
 
 -- --------------------------------------------------------
 
@@ -320,6 +334,7 @@ CREATE TABLE `payments` (
   `status` varchar(255) NOT NULL,
   `transaction_id` varchar(255) DEFAULT NULL,
   `payment_details` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`payment_details`)),
+  `proof_of_payment` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -328,8 +343,10 @@ CREATE TABLE `payments` (
 -- Dumping data untuk tabel `payments`
 --
 
-INSERT INTO `payments` (`id`, `order_id`, `payment_method_id`, `amount`, `status`, `transaction_id`, `payment_details`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 10000000.00, 'pending', NULL, '{\"transaction_id\":\"TRX684c11cdda8a8\",\"payment_url\":\"https:\\/\\/payment-gateway.com\\/pay\\/TRX684c11cdda8a9\",\"expired_at\":\"2025-06-14T11:55:57.895165Z\"}', '2025-06-13 04:55:57', '2025-06-13 04:55:57');
+INSERT INTO `payments` (`id`, `order_id`, `payment_method_id`, `amount`, `status`, `transaction_id`, `payment_details`, `proof_of_payment`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 10000000.00, 'pending', NULL, '{\"transaction_id\":\"TRX684c11cdda8a8\",\"payment_url\":\"https:\\/\\/payment-gateway.com\\/pay\\/TRX684c11cdda8a9\",\"expired_at\":\"2025-06-14T11:55:57.895165Z\"}', NULL, '2025-06-13 04:55:57', '2025-06-13 04:55:57'),
+(2, 6, 1, 750000.00, 'pending', NULL, NULL, 'payments/kSnDaLxFT3fIxGUwcWdYMZ8kERFrtqHjAA03W9S4.png', '2025-06-24 21:58:52', '2025-06-24 21:59:12'),
+(3, 7, 3, 750000.00, 'pending', NULL, NULL, 'payments/3LlKN7ODimhPnlFUYwmZrXJUhNhqCwsNowuUlW7I.png', '2025-06-24 22:44:16', '2025-06-24 22:44:26');
 
 -- --------------------------------------------------------
 
@@ -550,7 +567,9 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 (167, 'App\\Models\\User', 15, 'auth_token', '3eb5e06da675943818f4d8c27c58e83476436a0018d137e2b92a58499a21b43c', '[\"*\"]', '2025-06-23 18:43:45', NULL, '2025-06-23 18:32:01', '2025-06-23 18:43:45'),
 (168, 'App\\Models\\User', 10, 'auth_token', 'cf600d757822fa077a95181a9e7e1b856664620d724bf0f4aebb35a3ea77f301', '[\"*\"]', '2025-06-23 18:52:59', NULL, '2025-06-23 18:52:57', '2025-06-23 18:52:59'),
 (169, 'App\\Models\\User', 10, 'auth_token', '864ce0d990a9261176d6cb134eb72513ff982b994c3b4af94d0ddfdd97134d54', '[\"*\"]', '2025-06-23 18:55:10', NULL, '2025-06-23 18:55:09', '2025-06-23 18:55:10'),
-(170, 'App\\Models\\User', 10, 'auth_token', 'b2f05cd1450fdfb1ac8af48ba67b88460c43f272c69d60f4758095a7ea92b697', '[\"*\"]', '2025-06-24 05:17:18', NULL, '2025-06-23 18:55:57', '2025-06-24 05:17:18');
+(170, 'App\\Models\\User', 10, 'auth_token', 'b2f05cd1450fdfb1ac8af48ba67b88460c43f272c69d60f4758095a7ea92b697', '[\"*\"]', '2025-06-24 06:04:58', NULL, '2025-06-23 18:55:57', '2025-06-24 06:04:58'),
+(171, 'App\\Models\\User', 10, 'auth_token', '4578785f8e0ccc140cadfc02766c23592f7ba97c6bc5dc0ac695f85f37e5b87d', '[\"*\"]', '2025-06-24 06:06:57', NULL, '2025-06-24 06:05:23', '2025-06-24 06:06:57'),
+(172, 'App\\Models\\User', 10, 'auth_token', 'ecfe22b54a1dda566efacae8813d60e4be98923ea6da4e62715cb483283d8ea8', '[\"*\"]', '2025-06-24 23:20:34', NULL, '2025-06-24 06:09:09', '2025-06-24 23:20:34');
 
 -- --------------------------------------------------------
 
@@ -823,7 +842,7 @@ ALTER TABLE `wishlists`
 -- AUTO_INCREMENT untuk tabel `addresses`
 --
 ALTER TABLE `addresses`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `banners`
@@ -835,7 +854,7 @@ ALTER TABLE `banners`
 -- AUTO_INCREMENT untuk tabel `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT untuk tabel `cart_items`
@@ -859,7 +878,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT untuk tabel `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT untuk tabel `notifications`
@@ -871,13 +890,13 @@ ALTER TABLE `notifications`
 -- AUTO_INCREMENT untuk tabel `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT untuk tabel `order_tracking`
@@ -889,7 +908,7 @@ ALTER TABLE `order_tracking`
 -- AUTO_INCREMENT untuk tabel `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `payment_methods`
@@ -901,7 +920,7 @@ ALTER TABLE `payment_methods`
 -- AUTO_INCREMENT untuk tabel `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=171;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=173;
 
 --
 -- AUTO_INCREMENT untuk tabel `products`

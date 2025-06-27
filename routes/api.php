@@ -105,6 +105,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/payment-methods', [PaymentController::class, 'getPaymentMethods']);
     Route::post('/orders/{order}/payment', [PaymentController::class, 'createPayment']);
 
+    // Upload bukti transfer pembayaran manual
+    Route::post('payments/{payment}/upload-proof', [\App\Http\Controllers\API\PaymentController::class, 'uploadProofOfPayment']);
+
     // 🔐 ADMIN ROUTES
     Route::middleware('admin')->group(function () {
         // Produk & Kategori
@@ -171,3 +174,5 @@ Route::get('/check-image/{type}/{filename}', function ($type, $filename) {
         'path' => "images/{$type}/{$filename}"
     ], 404);
 });
+
+Route::middleware('auth:sanctum')->post('/user/change-password', [App\Http\Controllers\AuthController::class, 'changePassword']);

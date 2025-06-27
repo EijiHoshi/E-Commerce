@@ -59,4 +59,30 @@ class PaymentController extends Controller
         $paymentMethods = PaymentMethod::where('is_active', true)->get();
         return response()->json($paymentMethods);
     }
+
+    /**
+     * Upload bukti transfer pembayaran (manual payment)
+     */
+    public function uploadProofOfPayment(Request $request, $paymentId)
+    {
+        $request->validate([
+            'proof_of_payment' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
+        $payment = \App\Models\Payment::findOrFail($paymentId);
+
+        // Simpan file ke storage/app/public/payments
+        $file = $request->file('proof_of_payment');
+        $path = $file->store('payments', 'public');
+
+        // Update kolom proof_of_payment
+        $payment->proof_of_payment = $path;
+        $payment->save();
+
+        return response()->json([
+            'message' => 'Bukti transfer berhasil diupload',
+            'proof_of_payment_url' => asset('storage/' . $path),
+            'data' => $payment
+        ]);
+    }
 } 
